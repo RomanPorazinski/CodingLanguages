@@ -48,3 +48,46 @@ except FileNotFoundError as e:
     print(f"Error: {e}")
 
 ```
+
+### raise
+You can manually trigger errors in the execution of our class
+```python
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("Cannot divide by zero!")  # Raising an exception
+    return a / b
+
+print(divide(10, 2))  # Works fine
+print(divide(5, 0))   # Raises ZeroDivisionError
+```
+
+In an event where you want to stop execution under error, you can run some logging or some post processing before actually ending the execution. This can be done by sending in an empty 'raise'
+```python
+def fetch_data():
+    try:
+        # Simulating an error
+        result = 10 / 0  
+    except ZeroDivisionError as e:
+        print(f"Logging error: {e}")  # Logging the error
+        # Do anything you want before the execution is stopped
+        raise  # Re-raises the same exception
+
+fetch_data()  # Logs and then raises ZeroDivisionError again
+```
+
+### finally
+// TODO
+Read more about the finally function
+```python
+def process_data():
+    try:
+        print("Processing data...")
+        raise ValueError("Something went wrong!")  # Original exception
+    finally:
+        print("Cleaning up resources...")
+        # If you raise another exception here, it overrides the first one.
+        raise RuntimeError("Cleanup failed!")
+
+process_data()  
+# Only RuntimeError is shown, original ValueError is lost.
+```
